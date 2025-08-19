@@ -32,29 +32,29 @@ erDiagram
         decimal final_value
     }
 
-    StockMovement {
+    StockMovements {
         int id PK
         int id_product FK
         int id_location FK
-        string type  // IN | OUT
-        string reason // Venda, Transferência, Perda, Ajuste
+        string type 
+        string reason
         int quantity
         datetime movement_date
-        int id_sell FK NULL
+        int id_sell
     }
 
     Locations {
         int id PK
         string name
-        string tipo // Almoxarifado ou Ponto de Venda
+        string tipo
     }
 
-    Product ||--o{ Storage : "tem"
-    Product ||--o{ ItemSold : "vendido"
-    Sell ||--o{ ItemSold : "contém"
-    Location ||--o{ Sell : "realizado_em"
-    Product ||--o{ StockMovement : "movimentado"
-    Location ||--o{ StockMovement : "ocorre_em"
-    Sell ||--o{ StockMovement : "origina"
+    Products ||--o{ Storages : "tem"
+    Products ||--o{ ItemsSold : "vendido"
+    Sells ||--o{ ItemsSold : "contém"
+    Locations ||--o{ Sells : "realizado_em"
+    Products ||--o{ StockMovements : "movimentado"
+    Locations ||--o{ StockMovements : "ocorre_em"
+    Sells ||--o{ StockMovements : "origina"
 
 ```
