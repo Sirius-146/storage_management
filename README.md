@@ -2,51 +2,59 @@
 
 ```mermaid
 erDiagram
-    Produto {
+
+    Products {
         int id PK
-        string nome
-        string marca
-        decimal valor
-        string codigo_barras
+        string name
+        string brand
+        decimal value
+        string barCode
     }
 
-    Estoque {
+    Storages {
         int id PK
-        int id_produto FK
-        string local
-        int quantidade
+        int id_product FK
+        string name
+        int quantity
     }
 
-    Cliente {
+    Sells {
         int id PK
-        string nome
-        string apartamento
+        datetime sell_date
+        int id_location FK
+        decimal total_value
     }
 
-    Funcionario {
+    ItemsSold {
+        int id_sell PK, FK
+        int id_product PK, FK
+        int quantity
+        decimal final_value
+    }
+
+    StockMovement {
         int id PK
-        string setor
-        string nome
+        int id_product FK
+        int id_location FK
+        string type  // IN | OUT
+        string reason // Venda, Transferência, Perda, Ajuste
+        int quantity
+        datetime movement_date
+        int id_sell FK NULL
     }
 
-    Venda {
+    Locations {
         int id PK
-        datetime data
-        int id_funcionario FK
-        int id_cliente FK
-        decimal valor_total
+        string name
+        string tipo // Almoxarifado ou Ponto de Venda
     }
 
-    Item_venda {
-        int id_venda PK,FK
-        int id_produto PK,FK
-        int quantidade
-        decimal valor_final
-    }
+    Product ||--o{ Storage : "tem"
+    Product ||--o{ ItemSold : "vendido"
+    Sell ||--o{ ItemSold : "contém"
+    Location ||--o{ Sell : "realizado_em"
+    Product ||--o{ StockMovement : "movimentado"
+    Location ||--o{ StockMovement : "ocorre_em"
+    Sell ||--o{ StockMovement : "origina"
 
-    Venda ||--o{ Item_venda : "tem"
-    Produto ||--o{ Item_venda : "contem"
-    Funcionario ||--o{ Venda : "realiza"
-    Cliente ||--o{ Venda : "faz"
-    Produto ||--o{ Estoque : "tem"
 ```
