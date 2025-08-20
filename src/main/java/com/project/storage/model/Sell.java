@@ -1,0 +1,65 @@
+package com.project.storage.model;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name= "sells")
+@Getter @Setter @NoArgsConstructor
+public class Sell {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "date")
+    private Date date;
+
+    @ManyToOne
+    @JoinColumn(name = "id_worker", nullable = false)
+    private Worker worker;
+
+    @ManyToOne
+    @JoinColumn(name = "id_client", nullable = false)
+    private Client client;
+
+    @ManyToOne
+    @JoinColumn(name = "id_location", nullable = false)
+    private Location location;
+
+    @OneToMany(mappedBy = "sell", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemSold> items = new ArrayList<>();
+
+    @Column(name = "total_value")
+    private Double totalValue = 0.0;
+    
+    public Sell(Date date, Worker worker, Client client, Location location) {
+        this.date = date;
+        this.worker = worker;
+        this.client = client;
+        this.location = location;
+    }
+
+    public void addItem(ItemSold item){
+        items.add(item);
+        item.setSell(this);
+        recalculateTotal();
+    }
+
+    public void removeItem(ItemSold item){
+        items.remove(item);
+        recalculateTotal();
+    }
+
+    public void recalculateTotal(){
+        this.totalValue = items.stream()
+                                .mapToDouble(ItemSold::getFinalValue)
+                                .sum();
+    }
+}

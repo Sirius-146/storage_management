@@ -1,29 +1,41 @@
 package com.project.storage.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="products")
+@Table(name = "products")
+@Data // Gera getters, setters, equals, hashCode e toString
+@NoArgsConstructor // Construtor padrão (obrigatório pro JPA)
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_product")
     private Integer id;
-    @Column(length = 50, nullable = false)
-    private String name;
-    @Column(nullable = false)
-    private Integer quantity;
-    @Column(length = 50, nullable = false)
-    private String brand;
-    @Column(nullable = false)
-    private Double value;
 
-    public String getName() {return name;}
-    public void setName(String name) {this.name = name;}
-    public Integer getQuantity() {return quantity;}
-    public void setQuantity(Integer quantity) {this.quantity = quantity;}
-    public String getBrand() {return brand;}
-    public void setBrand(String brand) {this.brand = brand;}
-    public Double getValue() {return value;}
-    public void setValue(Double value) {this.value = value;}
+    @Column(name= "name",length = 50, nullable = false)
+    private String name;
+
+    @Column(name = "brand", length = 50)
+    private String brand;
+
+    @Column(name = "price", nullable = false)
+    private Double price;
+
+    @Column(name = "bar_code")
+    private String barCode;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Storage> storages = new ArrayList<>();
+
+    public Product(String name, String brand, Double price, String barCode) {
+        this.name = name;
+        this.brand = brand;
+        this.price = price;
+        this.barCode = barCode;
+    }
 }
