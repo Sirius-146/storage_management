@@ -26,8 +26,8 @@ public class Sell {
     private Worker worker;
 
     @ManyToOne
-    @JoinColumn(name = "id_client", nullable = false)
-    private Client client;
+    @JoinColumn(name = "id_reservation", nullable = false)
+    private Reservation reservation;
 
     @ManyToOne
     @JoinColumn(name = "id_location", nullable = false)
@@ -39,10 +39,10 @@ public class Sell {
     @Column(name = "total_value")
     private Double totalValue = 0.0;
     
-    public Sell(Date date, Worker worker, Client client, Location location) {
+    public Sell(Date date, Worker worker, Reservation reservation, Location location) {
         this.date = date;
         this.worker = worker;
-        this.client = client;
+        this.reservation = reservation;
         this.location = location;
     }
 

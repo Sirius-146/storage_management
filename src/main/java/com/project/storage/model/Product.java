@@ -26,16 +26,20 @@ public class Product {
     @Column(name = "price", nullable = false)
     private Double price;
 
+    @Column(name = "cost", nullable = false)
+    private Double cost;
+
     @Column(name = "bar_code")
     private String barCode;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Storage> storages = new ArrayList<>();
 
-    public Product(String name, String brand, Double price, String barCode) {
+    public Product(String name, String brand, Double price, Double cost, String barCode) {
         this.name = name;
         this.brand = brand;
         this.price = price;
+        this.cost = cost;
         this.barCode = barCode;
     }
 }

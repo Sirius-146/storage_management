@@ -7,5 +7,6 @@ public class ProductRequestDTO {
     private String name;
     private String brand;
     private Double price;
+    private Double cost;
     private String barcode;
 }

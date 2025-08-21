@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "location")
+@Table(name = "locations")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Location {
     @Id

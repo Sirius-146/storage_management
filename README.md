@@ -3,58 +3,72 @@
 ```mermaid
 erDiagram
 
-    Products {
+    PRODUCT {
         int id PK
         string name
         string brand
         decimal value
-        string barCode
+        string barcode
     }
 
-    Storages {
+    LOCATION {
         int id PK
-        int id_product FK
         string name
-        int quantity
     }
 
-    Sells {
+    STORAGE {
         int id PK
-        datetime sell_date
-        int id_location FK
-        decimal total_value
+        string local
+        int quantity
+        int id_product FK
     }
 
-    ItemsSold {
+    CLIENT {
+        int id PK
+        string name
+        string document
+    }
+
+    RESERVATION {
+        int id PK
+        date checkin
+        date checkout
+        string apartment
+        int id_client FK
+    }
+
+    SELL {
+        int id PK
+        date sell_date
+        int id_reservation FK
+    }
+
+    ITEM_SELL {
         int id_sell PK, FK
         int id_product PK, FK
         int quantity
-        decimal final_value
+        decimal value
     }
 
-    StockMovements {
+    STOCK_MOVEMENT {
         int id PK
+        string type
+        int quantity
+        date movement_date
         int id_product FK
         int id_location FK
-        string type 
-        string reason
-        int quantity
-        datetime movement_date
-        int id_sell
+        int id_sell FK NULL
     }
 
-    Locations {
-        int id PK
-        string name
-        string tipo
-    }
+    PRODUCT ||--o{ STORAGE : "tem"
+    PRODUCT ||--o{ ITEM_SELL : "compõe"
+    LOCATION ||--o{ STORAGE : "guarda"
+    SELL ||--o{ ITEM_SELL : "contém"
+    CLIENT ||--o{ RESERVATION : "faz"
+    RESERVATION ||--o{ SELL : "origina"
+    PRODUCT ||--o{ STOCK_MOVEMENT : "move"
+    LOCATION ||--o{ STOCK_MOVEMENT : "ocorre em"
+    SELL ||--o{ STOCK_MOVEMENT : "origina"
 
-    Products ||--o{ Storages : "tem"
-    Products ||--o{ ItemsSold : "vendido"
-    Sells ||--o{ ItemsSold : "contém"
-    Locations ||--o{ Sells : "realizado_em"
-    Products ||--o{ StockMovements : "movimentado"
-    Locations ||--o{ StockMovements : "ocorre_em"
-    Sells ||--o{ StockMovements : "origina"
 
 ```

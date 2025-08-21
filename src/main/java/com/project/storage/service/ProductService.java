@@ -22,6 +22,7 @@ public class ProductService {
         product.setName(dto.getName());
         product.setBrand(dto.getBrand());
         product.setPrice(dto.getPrice());
+        product.setCost(dto.getCost());
         product.setBarCode(dto.getBarcode());
 
         product = productRepository.save(product);
@@ -31,6 +32,7 @@ public class ProductService {
             product.getName(),
             product.getBrand(),
             product.getPrice(),
+            product.getCost(),
             product.getBarCode()
         );
     }
@@ -42,6 +44,7 @@ public class ProductService {
                     p.getName(),
                     p.getBrand(),
                     p.getPrice(),
+                    p.getCost(),
                     p.getBarCode()
                 ))
                 .toList();
