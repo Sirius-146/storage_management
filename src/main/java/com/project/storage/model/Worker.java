@@ -4,19 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-@Entity
-@Table(name = "workers")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @ToString(exclude = "sells")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Entity
+@Table(name = "workers")
 public class Worker {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

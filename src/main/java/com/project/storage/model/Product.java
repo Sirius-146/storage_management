@@ -5,16 +5,19 @@ import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "products")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data // Gera getters, setters, equals, hashCode e toString
 @NoArgsConstructor // Construtor padrão (obrigatório pro JPA)
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Integer id;
 
     @Column(name= "name",length = 50, nullable = false)
