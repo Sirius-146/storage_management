@@ -49,4 +49,9 @@ public class ProductService {
                 ))
                 .toList();
     }
+
+    public Product searchById(Integer id){
+        return productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
+    }
 }
