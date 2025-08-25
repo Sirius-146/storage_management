@@ -15,7 +15,7 @@ public class Client {
     @EqualsAndHashCode.Include
     private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "name", length = 100, nullable = false)
     private String name;
 
     public Client(String name){

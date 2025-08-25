@@ -19,7 +19,7 @@ public class ReservationGroup {
     @EqualsAndHashCode.Include
     private Integer id;
 
-    @Column(name = "group_name", nullable = false)
+    @Column(name = "group_name", length = 50, nullable = false)
     private String groupName;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)

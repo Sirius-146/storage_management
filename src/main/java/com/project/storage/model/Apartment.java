@@ -21,7 +21,7 @@ public class Apartment {
     @Column(nullable = false)
     private Integer number;
 
-    @Column(nullable = false)
+    @Column(length = 50, nullable = false)
     private String type;
 
     @OneToMany(mappedBy = "apartment", cascade = CascadeType.ALL, orphanRemoval = true)

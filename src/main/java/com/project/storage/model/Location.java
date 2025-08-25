@@ -11,9 +11,11 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false) private String name;
+    @Column(length = 15, nullable = false)
+    private String name;
 
     // Pode ser "ALMOXARIFADO" ou "PONTO_VENDA"
-    @Column(nullable = false) private String type;
+    @Column(length = 15, nullable = false)
+    private String type;
 }
 

@@ -32,7 +32,7 @@ public class Product {
     @Column(name = "cost", nullable = false)
     private Double cost;
 
-    @Column(name = "bar_code")
+    @Column(name = "bar_code", length = 30)
     private String barCode;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
