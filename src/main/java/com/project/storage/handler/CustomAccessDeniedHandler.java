@@ -16,7 +16,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
                        HttpServletResponse response,
                        AccessDeniedException accessDeniedException) throws IOException {
 
-        throw new UnauthorizedException("Acesso negado ao recurso %s", request.getRequestURI());
+        throw new UnauthorizedException("Access denied to %s", request.getRequestURI());
     }
 }
 

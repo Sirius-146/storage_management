@@ -18,6 +18,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
                          HttpServletResponse response,
                          org.springframework.security.core.AuthenticationException authException) throws IOException {
 
-        throw new UnauthorizedException("Usuário não autenticado para acessar %s", request.getRequestURI());
+        throw new UnauthorizedException("User not allowed to access %s", request.getRequestURI());
     }
 }

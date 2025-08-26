@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     // 404 - Not Found
-    @ExceptionHandler(WorkerNotFoundException.class)
-    public ResponseEntity<Object> handleWorkerNotFound(WorkerNotFoundException ex){
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Object> handleNotFound(NotFoundException ex){
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
@@ -27,13 +27,13 @@ public class GlobalExceptionHandler {
     // 403 - Forbidden (autenticado mas sem permissão)
     @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
     public ResponseEntity<Object> handleAccessDenied(org.springframework.security.access.AccessDeniedException ex){
-        return buildErrorResponse(HttpStatus.FORBIDDEN, "Acesso negado: você não possui permissão para este recurso");
+        return buildErrorResponse(HttpStatus.FORBIDDEN, "Access denied: you are not allowed to access this resource");
     }
 
     // 500- fallback genérico para exceções não tratadas
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> handleRuntime(RuntimeException ex){
-        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno no servidor");
+        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal error");
     }
 
     private ResponseEntity<Object> buildErrorResponse(HttpStatus status, String msg){

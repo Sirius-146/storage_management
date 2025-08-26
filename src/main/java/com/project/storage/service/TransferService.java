@@ -24,7 +24,7 @@ public class TransferService {
     @Transactional
     public void transferProduct(Product product, Location origin, Location destiny, Integer quantity){
         if (quantity <= 0){
-            throw new IllegalArgumentException("Quantidade deve ser maior que zero");
+            throw new IllegalArgumentException("Quantity must be bigger than zero");
         }
 
         // Estoque de origem
@@ -53,7 +53,7 @@ public class TransferService {
             .product(product)
             .location(origin)
             .type(MovementType.OUT)
-            .reason("Transferência para " + destiny.getName())
+            .reason("Transfer to " + destiny.getName())
             .quantity(quantity)
             .movementDate(LocalDateTime.now())
             .build();
@@ -62,7 +62,7 @@ public class TransferService {
             .product(product)
             .location(destiny)
             .type(MovementType.IN)
-            .reason("Transferência de " + origin.getName())
+            .reason("Transfer from " + origin.getName())
             .quantity(quantity)
             .movementDate(LocalDateTime.now())
             .build();

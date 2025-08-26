@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.project.storage.dto.ReservationDTO;
+import com.project.storage.handler.NotFoundException;
 import com.project.storage.model.Apartment;
 import com.project.storage.model.Client;
 import com.project.storage.model.Reservation;
@@ -27,15 +28,15 @@ public class ReservationService {
 
     public Reservation createReservation(ReservationDTO dto) {
         Client client = clientRepository.findById(dto.clientId())
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new NotFoundException("Client"));
         
         Apartment apartment = apartmentRepository.findById(dto.apartmentId())
-                .orElseThrow(() -> new RuntimeException("Apartamento não encontrado"));
+                .orElseThrow(() -> new NotFoundException("Apartment"));
 
         ReservationGroup group = null;
         if (dto.groupId() != null) {
             group = groupRepository.findById(dto.groupId())
-                    .orElseThrow(() -> new RuntimeException("Grupo não encontrado"));
+                    .orElseThrow(() -> new NotFoundException("Group"));
         }
 
         Reservation reservation = new Reservation();

@@ -55,13 +55,13 @@ public class JWTFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException e) {
-            logger.warn("Token expirado: {}", e.getMessage());
+            logger.warn("Expired token: {}", e.getMessage());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("{\"error\":\"Token expirado\"}");
+            response.getWriter().write("{\"error\":\"expired tokenexpirado\"}");
         } catch (UnsupportedJwtException | MalformedJwtException e) {
-            logger.warn("Token inválido: {}", e.getMessage());
+            logger.warn("Invalid token: {}", e.getMessage());
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.getWriter().write("{\"error\":\"Token inválido\"}");
+            response.getWriter().write("{\"error\":\"Invalid token\"}");
         }
     }
 

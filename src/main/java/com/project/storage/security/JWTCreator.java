@@ -44,7 +44,7 @@ public class JWTCreator {
             throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException {
         
         if (headerValue == null || !headerValue.startsWith(prefix)) {
-            throw new MalformedJwtException("Authorization header ausente ou inválido");
+            throw new MalformedJwtException("Authorization header null or not valid");
         }
 
         String token = headerValue.substring(prefix.length()).trim(); // remove só o prefixo inicial
@@ -60,7 +60,7 @@ public class JWTCreator {
         // (Opcional) Validações extras:
         Date now = new Date();
         if (claims.getExpiration() != null && claims.getExpiration().before(new Date(now.getTime() - CLOCK_SKEW_SECONDS * 1000))) {
-            throw new ExpiredJwtException(null, claims, "Token expirado");
+            throw new ExpiredJwtException(null, claims, "Expired token");
         }
         return new JWTObject(
             claims.getSubject(),

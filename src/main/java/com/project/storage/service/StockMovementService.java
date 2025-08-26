@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.storage.dto.StockMovementRequestDTO;
 import com.project.storage.dto.StockMovementResponseDTO;
+import com.project.storage.handler.NotFoundException;
 import com.project.storage.model.StockMovement;
 import com.project.storage.repository.LocationRepository;
 import com.project.storage.repository.ProductRepository;
@@ -37,9 +38,9 @@ public class StockMovementService {
 
     public StockMovementResponseDTO createMovement(StockMovementRequestDTO dto) {
         var product = productRepository.findById(dto.getProductId())
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new NotFoundException("Product"));
         var location = locationRepository.findById(dto.getLocationId())
-                .orElseThrow(() -> new RuntimeException("Local not found"));
+                .orElseThrow(() -> new NotFoundException("Local"));
         
         var movement = new StockMovement(
             product,

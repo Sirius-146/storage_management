@@ -35,12 +35,12 @@ public class SellService {
             Storage storage = storageRepository.findByProductAndLocation(
                     item.getProduct(), savedSell.getLocation()
             ).orElseThrow(() -> new IllegalStateException(
-                "Estoque não encontrado para produto=" + item.getProduct().getName() +
-                " em location=" + savedSell.getLocation().getName()
+                "Storage not found for product: " + item.getProduct().getName() +
+                " in location: " + savedSell.getLocation().getName()
             ));
 
             if (storage.getQuantity() < item.getQuantity()) {
-                throw new IllegalStateException("Estoque insuficiente para produto=" + item.getProduct().getName());
+                throw new IllegalStateException("Insuficient storage for product: " + item.getProduct().getName());
             }
 
             storage.setQuantity(storage.getQuantity() - item.getQuantity());

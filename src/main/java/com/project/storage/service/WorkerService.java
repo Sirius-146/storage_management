@@ -9,7 +9,7 @@ import com.project.storage.dto.LoginRequest;
 import com.project.storage.dto.LoginResponse;
 import com.project.storage.dto.WorkerRequest;
 import com.project.storage.handler.UnauthorizedException;
-import com.project.storage.handler.WorkerNotFoundException;
+import com.project.storage.handler.NotFoundException;
 import com.project.storage.model.Worker;
 import com.project.storage.repository.WorkerRepository;
 import com.project.storage.security.JWTCreator;
@@ -39,10 +39,10 @@ public class WorkerService {
 
     public LoginResponse authenticate(LoginRequest login){
         Worker worker = workerRepository.findByUsername(login.username())
-                .orElseThrow(() -> new WorkerNotFoundException());
+                .orElseThrow(() -> new NotFoundException("Worker"));
 
         if (!encoder.matches(login.password(), worker.getPassword())){
-            throw new UnauthorizedException("Senha inválida");
+            throw new UnauthorizedException("Wrong password");
         }
 
         Date issuedAt = new Date(System.currentTimeMillis());
@@ -67,11 +67,11 @@ public class WorkerService {
 
     public Worker searchById(Integer id){
         return workerRepository.findById(id)
-                .orElseThrow(() -> new WorkerNotFoundException());
+                .orElseThrow(() -> new NotFoundException("Worker"));
     }
 
     public Worker findByUsername(String username){
         return workerRepository.findByUsername(username)
-                .orElseThrow(() -> new WorkerNotFoundException("Colaborador %s não encontrado!", username));
+                .orElseThrow(() -> new NotFoundException("Worker %s not found!", username));
     }
 }
