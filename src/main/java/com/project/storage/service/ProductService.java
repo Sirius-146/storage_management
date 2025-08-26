@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.project.storage.dto.ProductResponseDTO;
+import com.project.storage.handler.WorkerNotFoundException;
 import com.project.storage.dto.ProductRequestDTO;
 import com.project.storage.model.Product;
 import com.project.storage.repository.ProductRepository;
@@ -52,6 +53,6 @@ public class ProductService {
 
     public Product searchById(Integer id){
         return productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
+                .orElseThrow(() -> new WorkerNotFoundException("Produto não encontrado!"));
     }
 }

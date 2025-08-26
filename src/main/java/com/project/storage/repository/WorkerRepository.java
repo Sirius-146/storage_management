@@ -1,9 +1,11 @@
 package com.project.storage.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.project.storage.model.Worker;
 
 public interface WorkerRepository extends JpaRepository<Worker, Integer>{
-    Worker findByUsername(String username);
+    Optional<Worker> findByUsername(String username);
 }

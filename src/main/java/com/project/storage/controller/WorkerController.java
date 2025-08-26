@@ -1,28 +1,29 @@
 package com.project.storage.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.storage.dto.WorkerRequest;
+import com.project.storage.dto.WorkerResponseDTO;
 import com.project.storage.model.Worker;
-import com.project.storage.repository.WorkerRepository;
+import com.project.storage.service.WorkerService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/workers")
+@RequiredArgsConstructor
 public class WorkerController {
-    @Autowired
-    private WorkerRepository repository;
-
-    @Autowired
-    private PasswordEncoder encoder;
+    
+    private final WorkerService workerService;
 
     @PostMapping("/register")
-    public Worker register(@RequestBody Worker worker){
-        // Criptografar senha antes de salvar
-        worker.setPassword(encoder.encode(worker.getPassword()));
-        return repository.save(worker);
+    public ResponseEntity<WorkerResponseDTO> register(@RequestBody WorkerRequest request) {
+        Worker worker = workerService.register(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(WorkerResponseDTO.fromEntity(worker));
     }
 }

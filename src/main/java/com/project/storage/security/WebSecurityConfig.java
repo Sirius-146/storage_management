@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.project.storage.handler.CustomAccessDeniedHandler;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
@@ -33,7 +35,12 @@ public class WebSecurityConfig {
     };
 
     @Bean
-    protected SecurityFilterChain securityFilterChain(HttpSecurity http, JWTFilter jwtFilter) throws Exception {
+    protected SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            JWTFilter jwtFilter,
+            CustomAuthenticationEntryPoint entryPoint,
+            CustomAccessDeniedHandler accessDeniedHandler) throws Exception {
+        
         http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
         http.cors(Customizer.withDefaults())
@@ -50,12 +57,10 @@ public class WebSecurityConfig {
                 .requestMatchers("/stock/**").hasAnyRole("ADMIN", "STORAGE_MANAGER")
                 .anyRequest().authenticated()                
             )
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(entryPoint)
+                        .accessDeniedHandler(accessDeniedHandler));
         return http.build();
-    }
-
-    @Bean
-    public JWTFilter jwtFilter(){
-        return new JWTFilter();
     }
 }
