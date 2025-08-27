@@ -1,10 +1,10 @@
 package com.project.storage.dto;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public record ReservationDTO (
-    Date checkin,
-    Date checkout,
+    LocalDate plannedCheckin,
+    LocalDate plannedCheckout,
     Integer clientId,
     Integer apartmentId,
     Integer groupId

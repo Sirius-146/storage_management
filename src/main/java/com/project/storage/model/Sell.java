@@ -32,7 +32,7 @@ public class Sell {
     private Reservation reservation;
 
     @ManyToOne
-    @JoinColumn(name = "id_location", nullable = false)
+    @JoinColumn(name = "id_location")
     private Location location;
 
     @OneToMany(mappedBy = "sell", cascade = CascadeType.ALL, orphanRemoval = true)

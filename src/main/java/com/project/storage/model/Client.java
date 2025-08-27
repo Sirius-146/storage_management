@@ -17,8 +17,16 @@ public class Client {
 
     @Column(name = "name", length = 100, nullable = false)
     private String name;
+    private String cpf;
+    private String phone;
+    private String email;
+    private String address;
 
-    public Client(String name){
+    public Client(String name ,String cpf,  String phone, String email, String address){
         this.name = name;
+        this.cpf = cpf;
+        this.phone = phone;
+        this.email = email;
+        this.address =address;
     }
 }
