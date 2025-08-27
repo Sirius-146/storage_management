@@ -33,7 +33,7 @@ public class Reservation {
     private BigDecimal discount;
 
     @Column(name = "daily_rate", precision = 10, scale = 2, nullable = false)
-    private Boolean dailyRate;
+    private BigDecimal dailyRate;
    
     @ManyToOne
     @JoinColumn(name = "id_apartment", nullable = false)

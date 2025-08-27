@@ -42,7 +42,7 @@ public class ReservationService {
                     .orElseThrow(() -> new NotFoundException("Group"));
         }
 
-        List<Reservation> conflicts = reservationRepository.findConflictReservations(
+        List<Reservation> conflicts = reservationRepository.findConflictingReservations(
             apartment.getId(),
             dto.plannedCheckin(),
             dto.plannedCheckout()

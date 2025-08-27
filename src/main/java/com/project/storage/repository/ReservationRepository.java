@@ -19,9 +19,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
             (:plannedCheckin < r.plannedCheckout AND :plannedCheckout > r.plannedCheckin)
         )
     """)
-    List<Reservation> findConflictReservations(
+    List<Reservation> findConflictingReservations(
         @Param("apartmentId") Integer apartmentId,
         @Param("plannedCheckin") LocalDate plannedCheckin,
-        @Param("plannedChecout") LocalDate plannedCheckout
+        @Param("plannedCheckout") LocalDate plannedCheckout
     );
 }
