@@ -29,8 +29,8 @@ public class ReservationGroupService {
             for (ReservationDTO r : dto.reservations()){
                 Reservation reservation = reservationService.createReservation(
                     new ReservationDTO(
-                        r.checkin(),
-                        r.checkout(),
+                        r.plannedCheckin(),
+                        r.plannedCheckout(),
                         r.clientId(),
                         r.apartmentId(),
                         savedGroup.getId()
