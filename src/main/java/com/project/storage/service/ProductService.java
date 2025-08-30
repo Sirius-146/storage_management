@@ -10,7 +10,6 @@ import com.project.storage.dto.ProductRequestDTO;
 import com.project.storage.model.Product;
 import com.project.storage.repository.ProductRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -41,7 +40,7 @@ public class ProductService {
 
     public ProductResponseDTO update(Integer id, ProductRequestDTO dto){
         Product productBD = productRepository.findById(id)
-                    .orElseThrow(() -> new NotFoundException("Produto"));
+                    .orElseThrow(() -> new NotFoundException("Product"));
         
         productBD.setName(dto.name());
         productBD.setBrand(dto.brand());
@@ -54,9 +53,24 @@ public class ProductService {
         return ProductResponseDTO.fromEntity(updated);
     }
 
+    public ProductResponseDTO patch(Integer id, ProductRequestDTO dto){
+        Product productBD = productRepository.findById(id)
+                    .orElseThrow(() -> new NotFoundException("Product"));
+        
+        if (dto.name() != null){ productBD.setName(dto.name()); }
+        if (dto.brand() != null){ productBD.setBrand(dto.brand()); }
+        if (dto.price() != null){ productBD.setPrice(dto.price()); }
+        if (dto.cost() != null){ productBD.setCost(dto.cost()); }
+        if (dto.barcode() != null){ productBD.setBarCode(dto.barcode()); }
+
+        Product updated = productRepository.save(productBD);
+
+        return ProductResponseDTO.fromEntity(updated);
+    }
+
     public void delete(Integer id){
         if (!productRepository.existsById(id)) {
-            throw new EntityNotFoundException("Product not found");
+            throw new NotFoundException("Product");
         }
         productRepository.deleteById(id);
     }
