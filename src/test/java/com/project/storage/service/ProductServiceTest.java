@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
+import com.project.storage.dto.ProductResponseDTO;
 import com.project.storage.model.Product;
 import com.project.storage.repository.ProductRepository;
 
@@ -30,14 +31,12 @@ class ProductServiceTest {
 
         when(mockRepository.findById(1)).thenReturn(Optional.of(product));
 
-        Product resultado = service.searchById(1);
+        ProductResponseDTO resultado = service.findById(1);
 
         assertNotNull(resultado);
-        assertEquals("Coca Cola", resultado.getName());
-        assertEquals("Coca Cola", resultado.getBrand());
-        assertEquals(6.99, resultado.getPrice());
-        assertEquals(4.37, resultado.getCost());
-        assertEquals("123456789010", resultado.getBarCode());
+        assertEquals("Coca Cola", resultado.name());
+        assertEquals("Coca Cola", resultado.brand());
+        assertEquals(6.99, resultado.price());
     }
 
     @Test
@@ -47,6 +46,6 @@ class ProductServiceTest {
 
         when(mockRepository.findById(1)).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> service.searchById(1));
+        assertThrows(RuntimeException.class, () -> service.findById(1));
     }
 }
