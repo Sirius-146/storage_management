@@ -51,7 +51,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/h2-console/**").permitAll() // ⚠️ só em dev
                 .requestMatchers(HttpMethod.POST, "/workers/register").permitAll()
                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/products").permitAll()
+                .requestMatchers("/products/**").permitAll()
                 .requestMatchers("/reservations/**").hasAnyRole("ADMIN", "RECEPTIONIST", "MAITRE")
                 .requestMatchers("/sells/**").hasAnyRole("ADMIN", "WAITER", "MAITRE")
                 .requestMatchers("/stock/**").hasAnyRole("ADMIN", "STORAGE_MANAGER")

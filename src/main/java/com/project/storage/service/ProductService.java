@@ -10,6 +10,7 @@ import com.project.storage.dto.ProductRequestDTO;
 import com.project.storage.model.Product;
 import com.project.storage.repository.ProductRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -18,41 +19,45 @@ public class ProductService {
     
     private final ProductRepository productRepository;
     
-    public ProductResponseDTO createProduct(ProductRequestDTO dto) {
-        Product product = new Product();
-        product.setName(dto.getName());
-        product.setBrand(dto.getBrand());
-        product.setPrice(dto.getPrice());
-        product.setCost(dto.getCost());
-        product.setBarCode(dto.getBarcode());
-
-        product = productRepository.save(product);
-
-        return new ProductResponseDTO(
-            product.getId(),
-            product.getName(),
-            product.getBrand(),
-            product.getPrice(),
-            product.getCost(),
-            product.getBarCode()
-        );
-    }
-
     public List<ProductResponseDTO> getAllProducts() {
         return productRepository.findAll().stream()
-                .map(p -> new ProductResponseDTO(
-                    p.getId(),
-                    p.getName(),
-                    p.getBrand(),
-                    p.getPrice(),
-                    p.getCost(),
-                    p.getBarCode()
-                ))
+                .map(ProductResponseDTO::fromEntity)
                 .toList();
     }
 
-    public Product searchById(Integer id){
+    public ProductResponseDTO findById(Integer id){
         return productRepository.findById(id)
+                .map(ProductResponseDTO::fromEntity)
                 .orElseThrow(() -> new NotFoundException("Product"));
+    }
+
+    public ProductResponseDTO create(ProductRequestDTO dto) {
+        Product product = new Product(dto.name(), dto.brand(), dto.price(), dto.cost(), dto.barcode());
+
+        product = productRepository.save(product);
+
+        return ProductResponseDTO.fromEntity(product);
+    }
+
+    public ProductResponseDTO update(Integer id, ProductRequestDTO dto){
+        Product productBD = productRepository.findById(id)
+                    .orElseThrow(() -> new NotFoundException("Produto"));
+        
+        productBD.setName(dto.name());
+        productBD.setBrand(dto.brand());
+        productBD.setPrice(dto.price());
+        productBD.setCost(dto.cost());
+        productBD.setBarCode(dto.barcode());
+
+        Product updated = productRepository.save(productBD);
+
+        return ProductResponseDTO.fromEntity(updated);
+    }
+
+    public void delete(Integer id){
+        if (!productRepository.existsById(id)) {
+            throw new EntityNotFoundException("Product not found");
+        }
+        productRepository.deleteById(id);
     }
 }
