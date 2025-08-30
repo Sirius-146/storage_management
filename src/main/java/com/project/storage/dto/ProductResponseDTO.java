@@ -1,15 +1,20 @@
 package com.project.storage.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.project.storage.model.Product;
 
-@Data
-@AllArgsConstructor
-public class ProductResponseDTO {
-    private Integer id;
-    private String name;
-    private String brand;
-    private Double price;
-    private Double cost;
-    private String barcode;
+public record ProductResponseDTO (
+    Integer id,
+    String name,
+    String brand,
+    Double price,
+    String barcode
+){
+    public static ProductResponseDTO fromEntity(Product product){
+        return new ProductResponseDTO(
+            product.getId(),
+            product.getName(),
+            product.getBrand(),
+            product.getPrice(),
+            product.getBarCode());
+    }
 }

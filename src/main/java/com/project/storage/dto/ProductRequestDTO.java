@@ -1,12 +1,9 @@
 package com.project.storage.dto;
 
-import lombok.Data;
-
-@Data
-public class ProductRequestDTO {
-    private String name;
-    private String brand;
-    private Double price;
-    private Double cost;
-    private String barcode;
-}
+public record ProductRequestDTO (
+    String name,
+    String brand,
+    Double price,
+    Double cost,
+    String barcode
+){}
