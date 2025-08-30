@@ -25,40 +25,26 @@ public class StockMovementService {
     public List<StockMovementResponseDTO> getAllMovements() {
         return stockMovementRepository.findAll()
                 .stream()
-                .map(m -> new StockMovementResponseDTO(
-                    m.getId(),
-                    m.getProduct().getName(),
-                    m.getLocation().getName(),
-                    m.getType(),
-                    m.getQuantity(),
-                    m.getMovementDate()
-                ))
+                .map(StockMovementResponseDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 
     public StockMovementResponseDTO createMovement(StockMovementRequestDTO dto) {
-        var product = productRepository.findById(dto.getProductId())
+        var product = productRepository.findById(dto.productId())
                 .orElseThrow(() -> new NotFoundException("Product"));
-        var location = locationRepository.findById(dto.getLocationId())
+        var location = locationRepository.findById(dto.locationId())
                 .orElseThrow(() -> new NotFoundException("Local"));
         
         var movement = new StockMovement(
             product,
             location,
-            dto.getType(),
-            dto.getQuantity()
+            dto.type(),
+            dto.quantity()
         );
 
         stockMovementRepository.save(movement);
 
-        return new StockMovementResponseDTO(
-            movement.getId(),
-            movement.getProduct().getName(),
-            movement.getLocation().getName(),
-            movement.getType(),
-            movement.getQuantity(),
-            movement.getMovementDate()
-        );
+        return StockMovementResponseDTO.fromEntity(movement);
 
     }
 }

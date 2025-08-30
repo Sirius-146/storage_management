@@ -24,16 +24,16 @@ public class TransferController {
 
     @PostMapping
     public ResponseEntity<String> transfer(@RequestBody TransferRequest request) {
-        var product = productRepository.findById(request.getProductId())
+        var product = productRepository.findById(request.productId())
                 .orElseThrow(() -> new IllegalArgumentException("Product not founf"));
         
-        var origin = locationRepository.findById(request.getOriginId())
+        var origin = locationRepository.findById(request.originId())
                 .orElseThrow(() -> new IllegalArgumentException("Origin place not founf"));
         
-        var destiny = locationRepository.findById(request.getDestinyId())
+        var destiny = locationRepository.findById(request.destinyId())
                 .orElseThrow(() -> new IllegalArgumentException("Destiny place not founf"));
         
-        transferService.transferProduct(product, origin, destiny, request.getQuantity());
+        transferService.transferProduct(product, origin, destiny, request.quantity());
 
         return ResponseEntity.ok("TransferÊncia concluída com sucesso!");
     }

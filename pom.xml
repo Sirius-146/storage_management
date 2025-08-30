@@ -60,6 +60,7 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!-- Banco de dados -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
