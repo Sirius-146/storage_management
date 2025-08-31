@@ -1,6 +1,7 @@
 package com.project.storage.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -24,10 +25,9 @@ public class ProductService {
                 .toList();
     }
 
-    public ProductResponseDTO findById(Integer id){
+    public Optional<ProductResponseDTO> findById(Integer id){
         return productRepository.findById(id)
-                .map(ProductResponseDTO::fromEntity)
-                .orElseThrow(() -> new NotFoundException("Product"));
+                .map(ProductResponseDTO::fromEntity);
     }
 
     public ProductResponseDTO create(ProductRequestDTO dto) {

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.storage.dto.TransferRequest;
+import com.project.storage.dto.TransferRequestDTO;
 import com.project.storage.repository.LocationRepository;
 import com.project.storage.repository.ProductRepository;
 import com.project.storage.service.TransferService;
@@ -23,7 +23,7 @@ public class TransferController {
     private final LocationRepository locationRepository;
 
     @PostMapping
-    public ResponseEntity<String> transfer(@RequestBody TransferRequest request) {
+    public ResponseEntity<String> transfer(@RequestBody TransferRequestDTO request) {
         var product = productRepository.findById(request.productId())
                 .orElseThrow(() -> new IllegalArgumentException("Product not founf"));
         
