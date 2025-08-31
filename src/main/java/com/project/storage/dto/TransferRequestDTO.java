@@ -1,6 +1,6 @@
 package com.project.storage.dto;
 
-public record TransferRequest (
+public record TransferRequestDTO (
     Integer productId,
     Integer originId,
     Integer destinyId,

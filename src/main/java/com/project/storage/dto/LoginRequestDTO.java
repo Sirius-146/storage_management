@@ -1,6 +1,6 @@
 package com.project.storage.dto;
 
-public record LoginRequest(
+public record LoginRequestDTO(
     String username,
     String password
 ) {

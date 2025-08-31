@@ -2,10 +2,9 @@ package com.project.storage.dto;
 
 import com.project.storage.model.Role;
 
-public record WorkerRequest (
+public record LoginResponseDTO(
     String name,
     String username,
-    String password,
-    String department,
+    String token,
     Role role
-){}
+) {}
