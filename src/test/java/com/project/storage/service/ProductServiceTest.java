@@ -1,8 +1,7 @@
 package com.project.storage.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -17,7 +16,7 @@ import com.project.storage.repository.ProductRepository;
 class ProductServiceTest {
     
     @Test
-    void deveRetornarprodutoQuandoExiste(){
+    void deveRetornarProdutoQuandoExiste(){
         ProductRepository mockRepository = mock(ProductRepository.class);
         ProductService service = new ProductService(mockRepository);
 
@@ -31,21 +30,23 @@ class ProductServiceTest {
 
         when(mockRepository.findById(1)).thenReturn(Optional.of(product));
 
-        ProductResponseDTO resultado = service.findById(1);
+        Optional<ProductResponseDTO> resultado = service.findById(1);
 
-        assertNotNull(resultado);
-        assertEquals("Coca Cola", resultado.name());
-        assertEquals("Coca Cola", resultado.brand());
-        assertEquals(6.99, resultado.price());
+        assertTrue(resultado.isPresent());
+        assertEquals("Coca Cola", resultado.get().name());
+        assertEquals("Coca Cola", resultado.get().brand());
+        assertEquals(6.99, resultado.get().price());
     }
 
     @Test
-    void deveLancarExcecaoQuandoProdutoNaoExiste() {
+    void deveRetornarVazioQuandoProdutoNaoExiste() {
         ProductRepository mockRepository = mock(ProductRepository.class);
         ProductService service = new ProductService(mockRepository);
 
         when(mockRepository.findById(1)).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> service.findById(1));
+        Optional<ProductResponseDTO> resultado = service.findById(1);
+
+        assertTrue(resultado.isEmpty());
     }
 }

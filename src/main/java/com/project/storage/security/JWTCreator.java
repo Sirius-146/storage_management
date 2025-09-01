@@ -43,11 +43,11 @@ public class JWTCreator {
     public static JWTObject create(String headerValue, String prefix, String base64Secret)
             throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException {
         
-        if (headerValue == null || !headerValue.startsWith(prefix)) {
+        if (headerValue == null || !headerValue.startsWith(prefix + " ")) {
             throw new MalformedJwtException("Authorization header null or not valid");
         }
 
-        String token = headerValue.substring(prefix.length()).trim(); // remove só o prefixo inicial
+        String token = headerValue.substring((prefix + " ").length()); // remove só o prefixo inicial
         SecretKey key = buildKey(base64Secret);
         
         Claims claims = Jwts.parser()

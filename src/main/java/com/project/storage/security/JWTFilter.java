@@ -23,31 +23,34 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class JWTFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(JWTFilter.class);
-    private JWTProperties securityConfig = new JWTProperties();
+    private final JWTProperties securityConfig;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
         // obtém o token da request com AUTHORIZATION
-        String token = request.getHeader(JWTCreator.HEADER_AUTHORIZATION);
+        String header = request.getHeader(JWTCreator.HEADER_AUTHORIZATION);
         // esta implementação só está validando a integridade do token
         try {
-            if (token != null && !token.isBlank()){
-                JWTObject tokenObject = JWTCreator.create(token, securityConfig.getPrefix(), securityConfig.getKey());
+            if (header != null && header.startsWith(securityConfig.getPrefix() + " ")) {
+                
+                JWTObject tokenObject = JWTCreator.create(header, securityConfig.getPrefix(), securityConfig.getKey());
 
                 Collection<? extends GrantedAuthority> authorities = authorities(tokenObject.role());
 
                 UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(
-                    tokenObject.subject(),
-                    null,
-                    authorities
-                );
+                    new UsernamePasswordAuthenticationToken(
+                        tokenObject.subject(),
+                        null,
+                        authorities
+                    );
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } else {
@@ -66,7 +69,6 @@ public class JWTFilter extends OncePerRequestFilter {
     }
 
     private Collection<? extends GrantedAuthority> authorities(Role role) {
-    return List.of(new SimpleGrantedAuthority(role.name()));
-}
-    
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+    }
 }

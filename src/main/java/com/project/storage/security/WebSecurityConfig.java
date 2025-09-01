@@ -25,13 +25,9 @@ public class WebSecurityConfig {
     }
 
     private static final String[] SWAGGER_WHITELIST = {
-        "/v2/api-docs",
-        "/swagger-resources",
-        "/swagger-resources/**",
-        "/configuration/ui",
-        "/configuration/security",
-        "/swagger-ui.html",
-        "/webjars/**"
+        "/v3/api-docs/**",     // documentação JSON
+        "/swagger-ui/**",      // arquivos estáticos da UI
+        "/swagger-ui.html"     // entrada principal
     };
 
     @Bean
@@ -49,7 +45,7 @@ public class WebSecurityConfig {
             .authorizeHttpRequests( authz -> authz
                 .requestMatchers(SWAGGER_WHITELIST).permitAll()
                 .requestMatchers("/h2-console/**").permitAll() // ⚠️ só em dev
-                .requestMatchers(HttpMethod.POST, "/workers/register").permitAll()
+                .requestMatchers("/workers/**").hasAnyRole("ADMIN", "HUMAN_RESOURCES")
                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
                 .requestMatchers("/products/**").permitAll()
                 .requestMatchers("/reservations/**").hasAnyRole("ADMIN", "RECEPTIONIST", "MAITRE")
