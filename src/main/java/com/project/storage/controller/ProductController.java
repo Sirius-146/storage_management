@@ -30,12 +30,12 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
-@Tag(name = "Products", description = "Gerenciamento de produtos")
+@Tag(name = "Products", description = "Products management")
 public class ProductController {
     private final ProductService productService;
 
     @PreAuthorize("hasAnyRole('ADMIN', 'STORAGE_MANAGER', 'MAITRE', 'WAITER')")
-    @Operation(summary = "List all products", description = "Return a list with all products registered", security = { @SecurityRequirement(name = "bearerAuth") })
+    @Operation(summary = "List products", description = "Return a list with all products registered", security = { @SecurityRequirement(name = "bearerAuth") })
     @GetMapping
     public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
         List<ProductResponseDTO> products = productService.getAllProducts();
@@ -44,15 +44,15 @@ public class ProductController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'STORAGE_MANAGER', 'MAITRE', 'WAITER')")
-    @Operation(summary = "Search product by ID", description = "Return a product by its identifier", security = { @SecurityRequirement(name = "bearerAuth") })
+    @Operation(summary = "List product", description = "Return a product by its identifier", security = { @SecurityRequirement(name = "bearerAuth") })
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> findById(@PathVariable Integer id) {
         return ResponseEntityUtils.fromOptional(productService.findById(id));
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'STORAGE_MANAGER')")
-    @Operation(summary = "Create products", description = "Register a product in the database", security = { @SecurityRequirement(name = "bearerAuth") })
-    @PostMapping
+    @Operation(summary = "Create product", description = "Register a product in the database", security = { @SecurityRequirement(name = "bearerAuth") })
+    @PostMapping("/register")
     public ResponseEntity<ProductResponseDTO> create(@RequestBody ProductRequestDTO dto) {
         ProductResponseDTO created = productService.create(dto);
         URI location = URI.create("/products/" + created.id()); // ou barcode
