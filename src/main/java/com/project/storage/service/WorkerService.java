@@ -1,13 +1,16 @@
 package com.project.storage.service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.project.storage.dto.LoginRequest;
-import com.project.storage.dto.LoginResponse;
-import com.project.storage.dto.WorkerRequest;
+import com.project.storage.dto.LoginRequestDTO;
+import com.project.storage.dto.LoginResponseDTO;
+import com.project.storage.dto.WorkerRequestDTO;
+import com.project.storage.dto.WorkerResponseDTO;
 import com.project.storage.handler.UnauthorizedException;
 import com.project.storage.handler.NotFoundException;
 import com.project.storage.model.Worker;
@@ -26,18 +29,18 @@ public class WorkerService {
     private final PasswordEncoder encoder;
     private final JWTProperties jwtProperties;
 
-    public Worker register(WorkerRequest request){
-        Worker worker = new Worker();
-        worker.setUsername(request.username());
-        worker.setName(request.name());
-        worker.setPassword(encoder.encode(request.password()));
-        worker.setDepartment(request.department());
-        worker.setRole(request.role());
+    public WorkerResponseDTO register(WorkerRequestDTO dto){
+        Worker worker = new Worker(
+            dto.name(), dto.username(), encoder.encode(dto.password()),
+            dto.role(), dto.department()
+        );
 
-        return workerRepository.save(worker);
+        workerRepository.save(worker);
+
+        return WorkerResponseDTO.fromEntity(worker);
     }
 
-    public LoginResponse authenticate(LoginRequest login){
+    public LoginResponseDTO authenticate(LoginRequestDTO login){
         Worker worker = workerRepository.findByUsername(login.username())
                 .orElseThrow(() -> new NotFoundException("Worker"));
 
@@ -62,16 +65,59 @@ public class WorkerService {
         );
 
         // Retorna login + token
-        return new LoginResponse(worker.getName(), worker.getUsername(), token, worker.getRole());
+        return new LoginResponseDTO(worker.getName(), worker.getUsername(), token, worker.getRole());
     }
 
-    public Worker searchById(Integer id){
+    public List<WorkerResponseDTO> getAllWorkers() {
+        return workerRepository.findAll().stream()
+                .map(WorkerResponseDTO::fromEntity)
+                .toList();
+    }
+
+    public Optional<WorkerResponseDTO> findById(Integer id){
         return workerRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Worker"));
+                .map(WorkerResponseDTO::fromEntity);
     }
 
-    public Worker findByUsername(String username){
+    public Optional<WorkerResponseDTO> findByUsername(String username){
         return workerRepository.findByUsername(username)
-                .orElseThrow(() -> new NotFoundException("Worker %s not found!", username));
+                .map(WorkerResponseDTO::fromEntity);
+    }
+
+    public WorkerResponseDTO update(Integer id, WorkerRequestDTO dto){
+        Worker workerBD = workerRepository.findById(id)
+                    .orElseThrow(() -> new NotFoundException("Product"));
+        
+        workerBD.setName(dto.name());
+        workerBD.setUsername(dto.username());
+        workerBD.setPassword(encoder.encode(dto.password()));
+        workerBD.setDepartment(dto.department());
+        workerBD.setRole(dto.role());
+
+        Worker updated = workerRepository.save(workerBD);
+
+        return WorkerResponseDTO.fromEntity(updated);
+    }
+
+    public WorkerResponseDTO patch(Integer id, WorkerRequestDTO dto){
+        Worker workerBD = workerRepository.findById(id)
+                    .orElseThrow(() -> new NotFoundException("Product"));
+        
+        if ( dto.name() != null ) {workerBD.setName(dto.name());}
+        if ( dto.username() != null ) {workerBD.setUsername(dto.username());}
+        if ( dto.password() != null ) {workerBD.setPassword(encoder.encode(dto.password()));}
+        if ( dto.department() != null ) {workerBD.setDepartment(dto.department());}
+        if ( dto.role() != null ) {workerBD.setRole(dto.role());}
+
+        Worker updated = workerRepository.save(workerBD);
+
+        return WorkerResponseDTO.fromEntity(updated);
+    }
+
+    public void delete (Integer id){
+        if(!workerRepository.existsById(id)){
+            throw new NotFoundException("Worker");
+        }
+        workerRepository.deleteById(id);
     }
 }

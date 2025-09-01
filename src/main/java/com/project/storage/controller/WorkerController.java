@@ -1,15 +1,19 @@
 package com.project.storage.controller;
 
-import org.springframework.http.HttpStatus;
+import java.net.URI;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.storage.dto.WorkerRequest;
+import com.project.storage.dto.WorkerRequestDTO;
 import com.project.storage.dto.WorkerResponseDTO;
-import com.project.storage.model.Worker;
+import com.project.storage.helper.ResponseEntityUtils;
 import com.project.storage.service.WorkerService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,8 +26,16 @@ public class WorkerController {
     private final WorkerService workerService;
 
     @PostMapping("/register")
-    public ResponseEntity<WorkerResponseDTO> register(@RequestBody WorkerRequest request) {
-        Worker worker = workerService.register(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(WorkerResponseDTO.fromEntity(worker));
+    public ResponseEntity<WorkerResponseDTO> register(@RequestBody WorkerRequestDTO request) {
+        WorkerResponseDTO worker = workerService.register(request);
+        URI location = URI.create("/workers/" + worker.id());
+        return ResponseEntityUtils.created(location, worker);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<WorkerResponseDTO>> getAllWorkers(){
+        List<WorkerResponseDTO> workers = workerService.getAllWorkers();
+        Map<String, String> headers = Map.of("X-Total-Count",String.valueOf(workers.size()));
+        return ResponseEntityUtils.fromList(workers, headers);
     }
 }
