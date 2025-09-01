@@ -1,6 +1,8 @@
 package com.project.storage.controller;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.storage.dto.ProductRequestDTO;
 import com.project.storage.dto.ProductResponseDTO;
+import com.project.storage.helper.ResponseEntityUtils;
 import com.project.storage.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,41 +30,41 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public List<ProductResponseDTO> getAllProducts() {
-        return productService.getAllProducts();
+    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
+        List<ProductResponseDTO> products = productService.getAllProducts();
+        Map<String, String> headers = Map.of("X-Total-Count", String.valueOf(products));
+        return ResponseEntityUtils.fromList(products, headers);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> findById(@PathVariable Integer id) {
-        ProductResponseDTO dto = productService.findById(id);
-        return ResponseEntity.ok(dto);
+        return ResponseEntityUtils.fromOptional(productService.findById(id));
     }
 
     @PostMapping
     public ResponseEntity<ProductResponseDTO> create(@RequestBody ProductRequestDTO dto) {
         ProductResponseDTO created = productService.create(dto);
-        return ResponseEntity
-                .status(HttpStatus.CREATED) // 201
-                .body(created);
+        URI location = URI.create("/products/" + created.id()); // ou barcode
+        return ResponseEntityUtils.created(location, created);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> update(@PathVariable Integer id, @RequestBody ProductRequestDTO dto){
         ProductResponseDTO updated = productService.update(id, dto);
-        return ResponseEntity.ok(updated);
+        return ResponseEntityUtils.withStatus(HttpStatus.OK, updated);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> patch(@PathVariable Integer id, @RequestBody ProductRequestDTO dto){
         ProductResponseDTO updated = productService.patch(id, dto);
-        return ResponseEntity.ok(updated);
+        return ResponseEntityUtils.withStatus(HttpStatus.OK, updated);
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id){
         productService.delete(id);
-        return ResponseEntity.noContent().build(); // 204
+        return ResponseEntityUtils.deleted();
     }
     
 }
