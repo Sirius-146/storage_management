@@ -2,73 +2,108 @@
 
 ```mermaid
 erDiagram
+    PRODUCT ||--o{ STORAGE : contains
+    LOCATION ||--o{ STORAGE : stores
+    PRODUCT ||--o{ ITEM_SOLD : sold_in
+    SELL ||--o{ ITEM_SOLD : has
+    SELL ||--o{ STOCK_MOVEMENT : related_to
+    PRODUCT ||--o{ STOCK_MOVEMENT : moved
+    LOCATION ||--o{ STOCK_MOVEMENT : moved_at
+    SELL }o--|| WORKER : made_by
+    SELL }o--|| RESERVATION : for
+    RESERVATION ||--o{ SELL : includes
+    RESERVATION ||--o{ GUEST : has
+    RESERVATION ||--|| APARTMENT : assigned_to
+    RESERVATION ||--|| CLIENT : booked_by
+    RESERVATION }o--|| RESERVATION_GROUP : grouped_in
+    RESERVATION_GROUP ||--o{ RESERVATION : contains
+    WORKER ||--o{ SELL : made
+    WORKER }o--|| ROLE : has
+    APARTMENT ||--o{ RESERVATION : reserved
+    PRODUCT ||--o{ STORAGE : stored_in
+    ITEM_SOLD ||--|| PRODUCT : references
+    ITEM_SOLD ||--|| SELL : references
+    GUEST ||--|| RESERVATION : belongs_to
 
     PRODUCT {
-        int id PK
-        string name
-        string brand
-        decimal value
-        string barcode
+        Integer id PK
+        String name
+        String brand
+        Double price
+        Double cost
+        String barCode
     }
-
     LOCATION {
-        int id PK
-        string name
+        Integer id PK
+        String name
+        String type
     }
-
     STORAGE {
-        int id PK
-        string local
-        int quantity
-        int id_product FK
+        Integer id PK
+        Integer quantity
     }
-
-    CLIENT {
-        int id PK
-        string name
-        string document
-    }
-
-    RESERVATION {
-        int id PK
-        date checkin
-        date checkout
-        string apartment
-        int id_client FK
-    }
-
-    SELL {
-        int id PK
-        date sell_date
-        int id_reservation FK
-    }
-
-    ITEM_SELL {
-        int id_sell PK, FK
-        int id_product PK, FK
-        int quantity
-        decimal value
-    }
-
     STOCK_MOVEMENT {
-        int id PK
-        string type
-        int quantity
-        date movement_date
-        int id_product FK
-        int id_location FK
-        int id_sell FK NULL
+        Integer id PK
+        MovementType type
+        String reason
+        Integer quantity
+        LocalDateTime movementDate
     }
-
-    PRODUCT ||--o{ STORAGE : "tem"
-    PRODUCT ||--o{ ITEM_SELL : "compõe"
-    LOCATION ||--o{ STORAGE : "guarda"
-    SELL ||--o{ ITEM_SELL : "contém"
-    CLIENT ||--o{ RESERVATION : "faz"
-    RESERVATION ||--o{ SELL : "origina"
-    PRODUCT ||--o{ STOCK_MOVEMENT : "move"
-    LOCATION ||--o{ STOCK_MOVEMENT : "ocorre em"
-    SELL ||--o{ STOCK_MOVEMENT : "origina"
-
-
+    SELL {
+        Integer id PK
+    }
+    ITEM_SOLD {
+        Integer sell PK, FK
+        Integer product PK, FK
+        Integer quantity
+        Double finalValue
+    }
+    WORKER {
+        Integer id PK
+        String name
+        String username
+        String password
+        String department
+        Role role
+    }
+    ROLE {
+        ADMIN
+        RECEPTIONIST
+        WAITER
+        MAITRE
+        STORAGE_MANAGER
+        HUMAN_RESOURCES
+    }
+    RESERVATION {
+        Integer id PK
+        LocalDate plannedCheckin
+        LocalDateTime checkin
+        LocalDate plannedCheckout
+        LocalDateTime checkout
+        ReservationStatus status
+        BigDecimal discount
+        BigDecimal dailyRate
+    }
+    RESERVATION_GROUP {
+        Integer id PK
+        String groupName
+    }
+    APARTMENT {
+        Integer id PK
+        Integer number
+        String type
+    }
+    CLIENT {
+        Integer id PK
+        String name
+        String cpf
+        String phone
+        String email
+        String address
+    }
+    GUEST {
+        Integer id PK
+        String name
+        Integer age
+    }
 ```
