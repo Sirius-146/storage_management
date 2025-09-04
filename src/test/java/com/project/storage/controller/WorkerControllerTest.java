@@ -34,7 +34,7 @@ class WorkerControllerTest {
     void register_shouldReturnCreatedResponse() {
         WorkerRequestDTO request = new WorkerRequestDTO("Name", "user", "pass", "Dept", Role.ADMIN);
         WorkerResponseDTO responseDTO = new WorkerResponseDTO(1, "Name", "user", Role.ADMIN);
-        when(workerService.register(request)).thenReturn(responseDTO);
+        when(workerService.create(request)).thenReturn(responseDTO);
 
         ResponseEntity<WorkerResponseDTO> response = workerController.register(request);
 

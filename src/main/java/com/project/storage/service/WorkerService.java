@@ -7,10 +7,10 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.project.storage.dto.LoginRequestDTO;
-import com.project.storage.dto.LoginResponseDTO;
-import com.project.storage.dto.WorkerRequestDTO;
-import com.project.storage.dto.WorkerResponseDTO;
+import com.project.storage.dto.login.LoginRequestDTO;
+import com.project.storage.dto.login.LoginResponseDTO;
+import com.project.storage.dto.worker.WorkerRequestDTO;
+import com.project.storage.dto.worker.WorkerResponseDTO;
 import com.project.storage.handler.UnauthorizedException;
 import com.project.storage.handler.NotFoundException;
 import com.project.storage.model.Worker;
@@ -29,7 +29,7 @@ public class WorkerService {
     private final PasswordEncoder encoder;
     private final JWTProperties jwtProperties;
 
-    public WorkerResponseDTO register(WorkerRequestDTO dto){
+    public WorkerResponseDTO create(WorkerRequestDTO dto){
         Worker worker = new Worker(
             dto.name(), dto.username(), encoder.encode(dto.password()),
             dto.role(), dto.department()

@@ -37,7 +37,7 @@ public class WorkerController {
     @Operation(summary = "Create worker", description = "Register a worker in the database", security = { @SecurityRequirement(name = "bearerAuth") })
     @PostMapping("/register")
     public ResponseEntity<WorkerResponseDTO> register(@RequestBody WorkerRequestDTO request) {
-        WorkerResponseDTO worker = workerService.register(request);
+        WorkerResponseDTO worker = workerService.create(request);
         URI location = URI.create("/workers/" + worker.id());
         return ResponseEntityUtils.created(location, worker);
     }

@@ -52,7 +52,7 @@ class WorkerServiceTest {
         when(encoder.encode(TEST_PASSWORD)).thenReturn("encoded");
         when(workerRepository.save(any())).thenReturn(worker);
         
-        WorkerResponseDTO response = workerService.register(dto);
+        WorkerResponseDTO response = workerService.create(dto);
         
         assertEquals("Test Name", response.name());
         verify(workerRepository).save(any());
