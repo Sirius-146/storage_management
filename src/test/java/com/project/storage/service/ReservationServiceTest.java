@@ -16,7 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.project.storage.dto.ReservationDTO;
+import com.project.storage.dto.reservation.ReservationDTO;
 import com.project.storage.handler.ApartmentUnavailableException;
 import com.project.storage.model.Apartment;
 import com.project.storage.model.Client;
@@ -88,7 +88,7 @@ public class ReservationServiceTest {
         assertEquals(ReservationStatus.PENDING, reservation.getStatus());
     }
 
-        @Test
+    @Test
     void shouldThrowExceptionWhenApartmentIsUnavailable() {
         // Arrange
         ReservationDTO dto = new ReservationDTO(

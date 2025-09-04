@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-import com.project.storage.dto.ProductResponseDTO;
+import com.project.storage.dto.product.ProductResponseDTO;
 import com.project.storage.model.Product;
 import com.project.storage.repository.ProductRepository;
 
