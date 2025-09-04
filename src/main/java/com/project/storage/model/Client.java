@@ -27,6 +27,6 @@ public class Client {
         this.cpf = cpf;
         this.phone = phone;
         this.email = email;
-        this.address =address;
+        this.address = address;
     }
 }

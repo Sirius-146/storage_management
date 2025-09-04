@@ -1,5 +1,10 @@
 package com.project.storage.dto.client;
 
-public class ClientRequestDTO {
-    
+public record ClientRequestDTO(
+    String name,
+    String cpf,
+    String phone,
+    String email,
+    String address
+) {
 }

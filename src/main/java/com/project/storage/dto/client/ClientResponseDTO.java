@@ -1,5 +1,14 @@
 package com.project.storage.dto.client;
 
-public class ClientResponseDTO {
-    
+import com.project.storage.model.Client;
+
+public record ClientResponseDTO(
+    String name,
+    String cpf,
+    String phone,
+    String email
+) {
+    public static ClientResponseDTO fromEntity(Client client){
+        return new ClientResponseDTO(client.getName(), client.getCpf(), client.getPhone(), client.getEmail());
+    }
 }
