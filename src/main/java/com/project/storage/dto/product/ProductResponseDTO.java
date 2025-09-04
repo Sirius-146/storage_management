@@ -1,4 +1,4 @@
-package com.project.storage.dto;
+package com.project.storage.dto.product;
 
 import com.project.storage.model.Product;
 

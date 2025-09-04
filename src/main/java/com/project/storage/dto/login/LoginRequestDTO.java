@@ -1,4 +1,4 @@
-package com.project.storage.dto;
+package com.project.storage.dto.login;
 
 public record LoginRequestDTO(
     String username,

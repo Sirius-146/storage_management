@@ -1,4 +1,4 @@
-package com.project.storage.dto;
+package com.project.storage.dto.worker;
 
 import com.project.storage.model.Role;
 import com.project.storage.model.Worker;
