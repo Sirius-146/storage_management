@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.storage.dto.ProductRequestDTO;
-import com.project.storage.dto.ProductResponseDTO;
+import com.project.storage.dto.product.ProductRequestDTO;
+import com.project.storage.dto.product.ProductResponseDTO;
 import com.project.storage.helper.ResponseEntityUtils;
 import com.project.storage.service.ProductService;
 

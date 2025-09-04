@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.project.storage.dto.ProductResponseDTO;
 import com.project.storage.handler.NotFoundException;
-import com.project.storage.dto.ProductRequestDTO;
+import com.project.storage.dto.product.ProductRequestDTO;
+import com.project.storage.dto.product.ProductResponseDTO;
 import com.project.storage.model.Product;
 import com.project.storage.repository.ProductRepository;
 

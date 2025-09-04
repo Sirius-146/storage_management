@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.project.storage.dto.ReservationDTO;
+import com.project.storage.dto.reservation.ReservationDTO;
 import com.project.storage.handler.ApartmentUnavailableException;
 import com.project.storage.handler.NotFoundException;
 import com.project.storage.model.Apartment;

@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.project.storage.dto.ReservationDTO;
-import com.project.storage.dto.ReservationGroupDTO;
+import com.project.storage.dto.reservation.ReservationDTO;
+import com.project.storage.dto.reservation.ReservationGroupDTO;
 import com.project.storage.model.Reservation;
 import com.project.storage.model.ReservationGroup;
 import com.project.storage.repository.ReservationGroupRepository;

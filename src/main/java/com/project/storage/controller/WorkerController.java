@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.storage.dto.WorkerRequestDTO;
-import com.project.storage.dto.WorkerResponseDTO;
+import com.project.storage.dto.worker.WorkerRequestDTO;
+import com.project.storage.dto.worker.WorkerResponseDTO;
 import com.project.storage.helper.ResponseEntityUtils;
 import com.project.storage.service.WorkerService;
 

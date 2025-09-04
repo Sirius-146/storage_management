@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.storage.dto.StockMovementRequestDTO;
-import com.project.storage.dto.StockMovementResponseDTO;
+import com.project.storage.dto.stock.StockMovementRequestDTO;
+import com.project.storage.dto.stock.StockMovementResponseDTO;
 import com.project.storage.service.StockMovementService;
 
 import lombok.RequiredArgsConstructor;

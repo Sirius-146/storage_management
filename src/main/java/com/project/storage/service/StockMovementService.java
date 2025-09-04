@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.project.storage.dto.StockMovementRequestDTO;
-import com.project.storage.dto.StockMovementResponseDTO;
+import com.project.storage.dto.stock.StockMovementRequestDTO;
+import com.project.storage.dto.stock.StockMovementResponseDTO;
 import com.project.storage.handler.NotFoundException;
 import com.project.storage.model.StockMovement;
 import com.project.storage.repository.LocationRepository;
