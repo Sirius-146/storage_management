@@ -7,6 +7,8 @@ public class WorkerRequestDTOBuilder {
     private String name = "Test Name";
     private String username = "testUser";
     private String password = "testPassword123";
+    private String cpf = "11122233345";
+    private String email = "thisisan@email.com";
     private String department = "TestDept";
     private Role role = Role.ADMIN;
 
@@ -36,7 +38,7 @@ public class WorkerRequestDTOBuilder {
     }
 
     public WorkerRequestDTO build() {
-        return new WorkerRequestDTO(name, username, password, department, role);
+        return new WorkerRequestDTO(name, username, password, cpf, email, department, role);
     }
 }
 

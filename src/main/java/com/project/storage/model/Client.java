@@ -5,28 +5,27 @@ import lombok.*;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "clients")
-public class Client {
+public class Client extends User{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
-    private Integer id;
-
-    @Column(name = "name", length = 100, nullable = false)
-    private String name;
-    private String cpf;
+    @Column(name = "phone", length = 20)
     private String phone;
-    private String email;
+    
+    @Column(name = "address", length = 200)
     private String address;
 
-    public Client(String name ,String cpf,  String phone, String email, String address){
-        this.name = name;
-        this.cpf = cpf;
+    public Client(String name, String username, String password, String cpf, 
+                  String email, String phone, String address) {
+        super(name, username, password, cpf, email);
         this.phone = phone;
-        this.email = email;
+        this.address = address;
+    }
+
+    public Client(String name, String cpf, String email, String phone, String address) {
+        super(name, null, null, cpf, email); // username e password ficam nulos
+        this.phone = phone;
         this.address = address;
     }
 }

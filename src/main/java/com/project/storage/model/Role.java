@@ -6,5 +6,5 @@ public enum Role {
     WAITER,
     MAITRE,
     STORAGE_MANAGER,
-    HUMAN_RESOURCES
+    HUMAN_RESOURCES,
 }

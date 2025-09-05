@@ -32,7 +32,7 @@ public class WorkerService {
     public WorkerResponseDTO create(WorkerRequestDTO dto){
         Worker worker = new Worker(
             dto.name(), dto.username(), encoder.encode(dto.password()),
-            dto.role(), dto.department()
+            dto.cpf(), dto.email(), dto.role(), dto.department()
         );
 
         workerRepository.save(worker);

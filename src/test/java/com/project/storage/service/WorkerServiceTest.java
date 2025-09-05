@@ -47,7 +47,7 @@ class WorkerServiceTest {
     void register_shouldSaveWorkerAndReturnResponse() {
         WorkerRequestDTO dto = new WorkerRequestDTOBuilder().build();
         
-        Worker worker = new Worker("Test Name", TEST_USERNAME, "encoded", Role.ADMIN, "Dept");
+        Worker worker = new Worker("Test Name", TEST_USERNAME, "encoded", "11122233345", "thisisan@email.com", Role.ADMIN, "Dept");
         
         when(encoder.encode(TEST_PASSWORD)).thenReturn("encoded");
         when(workerRepository.save(any())).thenReturn(worker);
@@ -73,7 +73,7 @@ class WorkerServiceTest {
 
     @Test
     void authenticate_shouldThrowUnauthorized_whenPasswordWrong() {
-        Worker worker = new Worker("Name", "user", "encoded", Role.ADMIN, "Dept");
+        Worker worker = new Worker("Name", "user", "encoded", "11122233345", "thisisan@email.com", Role.ADMIN, "Dept");
         when(workerRepository.findByUsername("user")).thenReturn(Optional.of(worker));
         when(encoder.matches("pass", "encoded")).thenReturn(false);
 
@@ -83,7 +83,7 @@ class WorkerServiceTest {
 
     @Test
     void getAllWorkers_shouldReturnList() {
-        Worker worker = new Worker("Name", "user", "encoded", Role.ADMIN, "Dept");
+        Worker worker = new Worker("Name", "user", "encoded", "11122233345", "thisisan@email.com", Role.ADMIN, "Dept");
         when(workerRepository.findAll()).thenReturn(List.of(worker));
         List<WorkerResponseDTO> result = workerService.getAllWorkers();
         assertEquals(1, result.size());
@@ -91,7 +91,7 @@ class WorkerServiceTest {
 
     @Test
     void findById_shouldReturnWorkerResponseDTO() {
-        Worker worker = new Worker("Name", "user", "encoded", Role.ADMIN, "Dept");
+        Worker worker = new Worker("Name", "user", "encoded", "11122233345", "thisisan@email.com", Role.ADMIN, "Dept");
         when(workerRepository.findById(1)).thenReturn(Optional.of(worker));
         Optional<WorkerResponseDTO> result = workerService.findById(1);
         assertTrue(result.isPresent());
@@ -100,7 +100,7 @@ class WorkerServiceTest {
 
     @Test
     void findByUsername_shouldReturnWorkerResponseDTO() {
-        Worker worker = new Worker("Name", "user", "encoded", Role.ADMIN, "Dept");
+        Worker worker = new Worker("Name", "user", "encoded", "11122233345", "thisisan@email.com", Role.ADMIN, "Dept");
         when(workerRepository.findByUsername("user")).thenReturn(Optional.of(worker));
         Optional<WorkerResponseDTO> result = workerService.findByUsername("user");
         assertTrue(result.isPresent());
@@ -109,12 +109,12 @@ class WorkerServiceTest {
 
     @Test
     void update_shouldUpdateWorker() {
-        Worker worker = new Worker("Old", "olduser", "oldpass", Role.RECEPTIONIST, "OldDept");
+        Worker worker = new Worker("Old", "olduser", "oldpass", "11122233345", "thisisan@email.com", Role.RECEPTIONIST, "OldDept");
         when(workerRepository.findById(1)).thenReturn(Optional.of(worker));
         when(encoder.encode("newpass")).thenReturn("newpass");
         when(workerRepository.save(any())).thenReturn(worker);
 
-        WorkerRequestDTO dto = new WorkerRequestDTO("New", "newuser", "newpass", "NewDept", Role.ADMIN);
+        WorkerRequestDTO dto = new WorkerRequestDTO("New", "newuser", "newpass", "11122233345", "thisisan@email.com", "NewDept", Role.ADMIN);
         WorkerResponseDTO response = workerService.update(1, dto);
 
         assertEquals("New", response.name());
@@ -123,12 +123,12 @@ class WorkerServiceTest {
 
     @Test
     void patch_shouldPatchWorker() {
-        Worker worker = new Worker("Old", "olduser", "oldpass", Role.RECEPTIONIST, "OldDept");
+        Worker worker = new Worker("Old", "olduser", "oldpass", "11122233345", "thisisan@email.com", Role.RECEPTIONIST, "OldDept");
         when(workerRepository.findById(1)).thenReturn(Optional.of(worker));
         when(encoder.encode("newpass")).thenReturn("newpass");
         when(workerRepository.save(any())).thenReturn(worker);
 
-        WorkerRequestDTO dto = new WorkerRequestDTO(null, "newuser", "newpass", null, Role.ADMIN);
+        WorkerRequestDTO dto = new WorkerRequestDTO(null, "newuser", "newpass", null, null, null, Role.ADMIN);
         WorkerResponseDTO response = workerService.patch(1, dto);
 
         assertEquals("newuser", response.username());

@@ -6,6 +6,8 @@ public record WorkerRequestDTO (
     String name,
     String username,
     String password,
+    String cpf,
+    String email,
     String department,
     Role role
 ){}

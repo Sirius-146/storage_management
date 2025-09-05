@@ -32,7 +32,7 @@ class WorkerControllerTest {
 
     @Test
     void register_shouldReturnCreatedResponse() {
-        WorkerRequestDTO request = new WorkerRequestDTO("Name", "user", "pass", "Dept", Role.ADMIN);
+        WorkerRequestDTO request = new WorkerRequestDTO("Name", "user", "pass", "11122233345", "thisisan@email.com", "Dept", Role.ADMIN);
         WorkerResponseDTO responseDTO = new WorkerResponseDTO(1, "Name", "user", Role.ADMIN);
         when(workerService.create(request)).thenReturn(responseDTO);
 
@@ -69,7 +69,7 @@ class WorkerControllerTest {
 
     @Test
     void patch_shouldReturnUpdatedWorker() {
-        WorkerRequestDTO dto = new WorkerRequestDTO("Name", "user", "pass", "Dept", Role.ADMIN);
+        WorkerRequestDTO dto = new WorkerRequestDTO("Name", "user", "pass", "11122233345", "thisisan@email.com", "Dept", Role.ADMIN);
         WorkerResponseDTO updated = new WorkerResponseDTO(1, "Name", "user", Role.ADMIN);
         when(workerService.patch(1, dto)).thenReturn(updated);
 

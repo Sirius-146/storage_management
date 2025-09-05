@@ -14,24 +14,11 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @ToString(exclude = "sells")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "workers")
-public class Worker  implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
-    private Integer id;
-
-    @Column(name = "name", length = 100, nullable = false)
-    private String name;
-
-    @Column(name = "username", length = 20, unique = true, nullable = false)
-    private String username;
-
-    @Column(name = "password", nullable = false)
-    private String password;
-
+public class Worker extends User implements UserDetails {
+    
     @Column(name = "department", length = 20, nullable = false)
     private String department;
 
@@ -43,10 +30,9 @@ public class Worker  implements UserDetails {
     private List<Sell> sells = new ArrayList<>();
 
 
-    public Worker(String name, String username, String password, Role role, String department){
-        this.name = name;
-        this.username = username;
-        this.password = password;
+    public Worker(String name, String username, String password, String cpf,
+                    String email, Role role, String department){
+        super(name, username, password, cpf, email);
         this.role = role;
         this.department = department;
     }
@@ -69,12 +55,8 @@ public class Worker  implements UserDetails {
     public boolean isEnabled() { return true; }
 
     @Override
-    public String getPassword() {
-        return this.password;
-    }
+    public String getPassword() { return this.password; }
 
     @Override
-    public String getUsername() {
-        return this.username;
-    }
+    public String getUsername() { return this.username; }
 }
