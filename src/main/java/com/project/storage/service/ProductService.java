@@ -11,6 +11,7 @@ import com.project.storage.dto.product.ProductResponseDTO;
 import com.project.storage.model.Product;
 import com.project.storage.repository.ProductRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -32,12 +33,12 @@ public class ProductService {
 
     public ProductResponseDTO create(ProductRequestDTO dto) {
         Product product = new Product(dto.name(), dto.brand(), dto.price(), dto.cost(), dto.barcode());
-
         product = productRepository.save(product);
 
         return ProductResponseDTO.fromEntity(product);
     }
 
+    @Transactional
     public ProductResponseDTO update(Integer id, ProductRequestDTO dto){
         Product productBD = productRepository.findById(id)
                     .orElseThrow(() -> new NotFoundException("Product"));
@@ -48,11 +49,10 @@ public class ProductService {
         productBD.setCost(dto.cost());
         productBD.setBarCode(dto.barcode());
 
-        Product updated = productRepository.save(productBD);
-
-        return ProductResponseDTO.fromEntity(updated);
+        return ProductResponseDTO.fromEntity(productBD);
     }
 
+    @Transactional
     public ProductResponseDTO patch(Integer id, ProductRequestDTO dto){
         Product productBD = productRepository.findById(id)
                     .orElseThrow(() -> new NotFoundException("Product"));
@@ -63,9 +63,7 @@ public class ProductService {
         if (dto.cost() != null){ productBD.setCost(dto.cost()); }
         if (dto.barcode() != null){ productBD.setBarCode(dto.barcode()); }
 
-        Product updated = productRepository.save(productBD);
-
-        return ProductResponseDTO.fromEntity(updated);
+        return ProductResponseDTO.fromEntity(productBD);
     }
 
     public void delete(Integer id){
