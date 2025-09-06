@@ -22,18 +22,12 @@ public class Worker extends User implements UserDetails {
     @Column(name = "department", length = 20, nullable = false)
     private String department;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role", length = 15, nullable = false)
-    private Role role;
-
     @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sell> sells = new ArrayList<>();
 
-
     public Worker(String name, String username, String password, String cpf,
                     String email, Role role, String department){
-        super(name, username, password, cpf, email);
-        this.role = role;
+        super(name, username, password, cpf, email, role);
         this.department = department;
     }
 

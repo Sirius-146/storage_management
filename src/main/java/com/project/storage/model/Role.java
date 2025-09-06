@@ -7,4 +7,5 @@ public enum Role {
     MAITRE,
     STORAGE_MANAGER,
     HUMAN_RESOURCES,
+    CLIENT,
 }

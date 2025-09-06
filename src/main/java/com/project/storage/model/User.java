@@ -24,12 +24,17 @@ public abstract class User {
     protected String cpf;
     @Column(name = "email", unique = true, nullable = false, length = 100)
     protected String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", length = 15, nullable = false)
+    protected Role role;
     
-    public User(String name, String username, String password, String cpf, String email) {
+    public User(String name, String username, String password, String cpf, String email, Role role) {
         this.name = name;
         this.username = username;
         this.password = password;
         this.cpf = cpf;
         this.email = email;
+        this.role = role;
     }
 }

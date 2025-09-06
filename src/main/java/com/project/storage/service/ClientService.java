@@ -20,7 +20,7 @@ public class ClientService {
     private final ClientRepository clientRepository;
 
     public ClientResponseDTO create(ClientRequestDTO dto){
-        Client client = new Client(dto.name(), dto.cpf(), dto.phone(), dto.email(), dto.address());
+        Client client = new Client(dto.name(), dto.cpf(), dto.email(), dto.role(), dto.phone(), dto.address());
 
         clientRepository.save(client);
 
