@@ -1,24 +1,18 @@
 package com.project.storage.service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.project.storage.dto.login.LoginRequestDTO;
-import com.project.storage.dto.login.LoginResponseDTO;
 import com.project.storage.dto.worker.WorkerRequestDTO;
 import com.project.storage.dto.worker.WorkerResponseDTO;
-import com.project.storage.handler.UnauthorizedException;
 import com.project.storage.handler.NotFoundException;
 import com.project.storage.model.Worker;
 import com.project.storage.repository.WorkerRepository;
-import com.project.storage.security.JWTCreator;
-import com.project.storage.security.JWTObject;
-import com.project.storage.security.JWTProperties;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -27,7 +21,6 @@ public class WorkerService {
     
     private final WorkerRepository workerRepository;
     private final PasswordEncoder encoder;
-    private final JWTProperties jwtProperties;
 
     public WorkerResponseDTO create(WorkerRequestDTO dto){
         Worker worker = new Worker(
@@ -38,34 +31,6 @@ public class WorkerService {
         workerRepository.save(worker);
 
         return WorkerResponseDTO.fromEntity(worker);
-    }
-
-    public LoginResponseDTO authenticate(LoginRequestDTO login){
-        Worker worker = workerRepository.findByUsername(login.username())
-                .orElseThrow(() -> new NotFoundException("Worker"));
-
-        if (!encoder.matches(login.password(), worker.getPassword())){
-            throw new UnauthorizedException("Wrong password");
-        }
-
-        Date issuedAt = new Date(System.currentTimeMillis());
-        Date expiration = new Date(System.currentTimeMillis() + 1000 * 60 * 60);
-
-        JWTObject jwtObject = new JWTObject(
-            worker.getUsername(),
-            issuedAt,
-            expiration,
-            worker.getRole()
-        );
-
-        String token = JWTCreator.create(
-            jwtProperties.getPrefix(),
-            jwtProperties.getKey(),
-            jwtObject
-        );
-
-        // Retorna login + token
-        return new LoginResponseDTO(worker.getName(), worker.getUsername(), token, worker.getRole());
     }
 
     public List<WorkerResponseDTO> getAllWorkers() {
@@ -84,6 +49,7 @@ public class WorkerService {
                 .map(WorkerResponseDTO::fromEntity);
     }
 
+    @Transactional
     public WorkerResponseDTO update(Integer id, WorkerRequestDTO dto){
         Worker workerBD = workerRepository.findById(id)
                     .orElseThrow(() -> new NotFoundException("Product"));
@@ -94,11 +60,10 @@ public class WorkerService {
         workerBD.setDepartment(dto.department());
         workerBD.setRole(dto.role());
 
-        Worker updated = workerRepository.save(workerBD);
-
-        return WorkerResponseDTO.fromEntity(updated);
+        return WorkerResponseDTO.fromEntity(workerBD);
     }
 
+    @Transactional
     public WorkerResponseDTO patch(Integer id, WorkerRequestDTO dto){
         Worker workerBD = workerRepository.findById(id)
                     .orElseThrow(() -> new NotFoundException("Product"));
@@ -109,9 +74,7 @@ public class WorkerService {
         if ( dto.department() != null ) {workerBD.setDepartment(dto.department());}
         if ( dto.role() != null ) {workerBD.setRole(dto.role());}
 
-        Worker updated = workerRepository.save(workerBD);
-
-        return WorkerResponseDTO.fromEntity(updated);
+        return WorkerResponseDTO.fromEntity(workerBD);
     }
 
     public void delete (Integer id){

@@ -36,6 +36,9 @@ class WorkerServiceTest {
     @InjectMocks
     private WorkerService workerService;
 
+    @InjectMocks
+    private AuthService authService;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -67,7 +70,7 @@ class WorkerServiceTest {
                 .withPassword("pass")
                 .build();
     
-        assertThrows(NotFoundException.class, () -> workerService.authenticate(login));
+        assertThrows(NotFoundException.class, () -> authService.authenticate(login));
     }
 
 
@@ -78,7 +81,7 @@ class WorkerServiceTest {
         when(encoder.matches("pass", "encoded")).thenReturn(false);
 
         LoginRequestDTO login = new LoginRequestDTO("user", "pass");
-        assertThrows(UnauthorizedException.class, () -> workerService.authenticate(login));
+        assertThrows(UnauthorizedException.class, () -> authService.authenticate(login));
     }
 
     @Test

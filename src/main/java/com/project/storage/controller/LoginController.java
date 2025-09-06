@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.storage.dto.login.LoginRequestDTO;
 import com.project.storage.dto.login.LoginResponseDTO;
-import com.project.storage.service.WorkerService;
+import com.project.storage.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,11 +17,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final WorkerService workerService;
+    private final AuthService authService;
 
     @PostMapping
-    public ResponseEntity<LoginResponseDTO> logar(@RequestBody LoginRequestDTO login){
-        LoginResponseDTO response = workerService.authenticate(login);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO login){
+        return ResponseEntity.ok(authService.authenticate(login));
     }
 }
