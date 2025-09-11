@@ -36,7 +36,7 @@ class WorkerControllerTest {
         WorkerResponseDTO responseDTO = new WorkerResponseDTO(1, "Name", "user", Role.ADMIN);
         when(workerService.create(request)).thenReturn(responseDTO);
 
-        ResponseEntity<WorkerResponseDTO> response = workerController.register(request);
+        ResponseEntity<WorkerResponseDTO> response = workerController.create(request);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(responseDTO, response.getBody());

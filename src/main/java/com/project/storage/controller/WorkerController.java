@@ -36,7 +36,7 @@ public class WorkerController {
     @PreAuthorize("hasAnyRole('ADMIN', 'HUMAN_RESOURCES')")
     @Operation(summary = "Create worker", description = "Register a worker in the database", security = { @SecurityRequirement(name = "bearerAuth") })
     @PostMapping("/register")
-    public ResponseEntity<WorkerResponseDTO> register(@RequestBody WorkerRequestDTO request) {
+    public ResponseEntity<WorkerResponseDTO> create(@RequestBody WorkerRequestDTO request) {
         WorkerResponseDTO worker = workerService.create(request);
         URI location = URI.create("/workers/" + worker.id());
         return ResponseEntityUtils.created(location, worker);
@@ -58,8 +58,8 @@ public class WorkerController {
         return ResponseEntityUtils.fromOptional(workerService.findById(id));
     }
 
-    // @PreAuthorize("hasAnyRole('ADMIN', 'HUMAN_RESOURCES')")
-    @Operation(summary = "Update worker", description = "Update the chosen values of a worker in the database") //, security = { @SecurityRequirement(name = "bearerAuth") }
+    @PreAuthorize("hasAnyRole('ADMIN', 'HUMAN_RESOURCES')")
+    @Operation(summary = "Update worker", description = "Update the chosen values of a worker in the database", security = { @SecurityRequirement(name = "bearerAuth") })
     @PatchMapping("/{id}")
     public ResponseEntity<WorkerResponseDTO> patch(@PathVariable Integer id, @RequestBody WorkerRequestDTO dto){
         WorkerResponseDTO updated = workerService.patch(id, dto);
