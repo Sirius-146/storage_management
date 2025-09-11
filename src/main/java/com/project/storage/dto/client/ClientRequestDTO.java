@@ -4,10 +4,12 @@ import com.project.storage.model.Role;
 
 public record ClientRequestDTO(
     String name,
+    String username,
+    String password,
     String cpf,
     String phone,
     String email,
-    Role role,
-    String address
+    String address,
+    Role role
 ) {
 }
